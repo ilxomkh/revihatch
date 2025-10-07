@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Minus, Plus, ShoppingCart } from "lucide-react"
 import { useRouter } from "next/navigation"
+import { useI18n } from "@/components/i18n-provider"
 
 const products = {
   transformer: {
@@ -37,9 +38,9 @@ const products = {
 }
 
 const finishTypes = [
-  { id: "powder", name: "Порошковое покрытие", priceMultiplier: 1.0 },
-  { id: "anodized", name: "Анодирование", priceMultiplier: 1.3 },
-  { id: "stainless", name: "Нержавеющая сталь", priceMultiplier: 1.5 },
+  { id: "powder", name: "cfg.finish.powder", priceMultiplier: 1.0 },
+  { id: "anodized", name: "cfg.finish.anodized", priceMultiplier: 1.3 },
+  { id: "stainless", name: "cfg.finish.stainless", priceMultiplier: 1.5 },
 ]
 
 interface ProductConfiguratorProps {
@@ -47,6 +48,7 @@ interface ProductConfiguratorProps {
 }
 
 export function ProductConfigurator({ initialModel }: ProductConfiguratorProps) {
+  const { t } = useI18n() as any
   const router = useRouter()
   const [selectedModel, setSelectedModel] = useState(initialModel)
   const [width, setWidth] = useState(600)
@@ -85,8 +87,8 @@ export function ProductConfigurator({ initialModel }: ProductConfiguratorProps) 
       <div className="space-y-6">
         <Card>
           <CardHeader>
-            <CardTitle>{product.name}</CardTitle>
-            <CardDescription>{product.description}</CardDescription>
+            <CardTitle>{t(`products.${selectedModel}.name`)}</CardTitle>
+            <CardDescription>{t(`products.${selectedModel}.desc`)}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="aspect-square overflow-hidden rounded-lg bg-muted">
@@ -102,7 +104,7 @@ export function ProductConfigurator({ initialModel }: ProductConfiguratorProps) 
         {/* Model Selection */}
         <Card>
           <CardHeader>
-            <CardTitle>Выбор модели</CardTitle>
+            <CardTitle>{t("cfg.chooseModel")}</CardTitle>
           </CardHeader>
           <CardContent>
             <RadioGroup value={selectedModel} onValueChange={setSelectedModel}>
@@ -112,7 +114,7 @@ export function ProductConfigurator({ initialModel }: ProductConfiguratorProps) 
                     <RadioGroupItem value={key} id={key} />
                     <Label htmlFor={key} className="flex-1 cursor-pointer">
                       <div className="font-semibold">{prod.name}</div>
-                      <div className="text-sm text-muted-foreground">от {new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'UZS', maximumFractionDigits: 0 }).format(prod.basePrice)}</div>
+                      <div className="text-sm text-muted-foreground">{t("cfg.priceFrom")} {new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'UZS', maximumFractionDigits: 0 }).format(prod.basePrice)}</div>
                     </Label>
                   </div>
                 ))}
@@ -127,12 +129,12 @@ export function ProductConfigurator({ initialModel }: ProductConfiguratorProps) 
         {/* Size Configuration */}
         <Card>
           <CardHeader>
-            <CardTitle>Размеры</CardTitle>
-            <CardDescription>Укажите размеры в миллиметрах</CardDescription>
+            <CardTitle>{t("cfg.sizes")}</CardTitle>
+            <CardDescription>{t("cfg.sizesDesc")}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="width">Ширина (мм)</Label>
+              <Label htmlFor="width">{t("cfg.width")}</Label>
               <Input
                 id="width"
                 type="number"
@@ -141,10 +143,10 @@ export function ProductConfigurator({ initialModel }: ProductConfiguratorProps) 
                 value={width}
                 onChange={(e) => setWidth(Number(e.target.value))}
               />
-              <p className="text-xs text-muted-foreground">Минимум: 300мм, Максимум: 1500мм</p>
+              <p className="text-xs text-muted-foreground">{t("cfg.sizes.minmax")}</p>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="height">Высота (мм)</Label>
+              <Label htmlFor="height">{t("cfg.height")}</Label>
               <Input
                 id="height"
                 type="number"
@@ -153,7 +155,7 @@ export function ProductConfigurator({ initialModel }: ProductConfiguratorProps) 
                 value={height}
                 onChange={(e) => setHeight(Number(e.target.value))}
               />
-              <p className="text-xs text-muted-foreground">Минимум: 300мм, Максимум: 1500мм</p>
+              <p className="text-xs text-muted-foreground">{t("cfg.sizes.minmax")}</p>
             </div>
           </CardContent>
         </Card>
@@ -161,7 +163,7 @@ export function ProductConfigurator({ initialModel }: ProductConfiguratorProps) 
         {/* Finish Type */}
         <Card>
           <CardHeader>
-            <CardTitle>Тип покрытия</CardTitle>
+            <CardTitle>{t("cfg.finish")}</CardTitle>
           </CardHeader>
           <CardContent>
             <RadioGroup value={finish} onValueChange={setFinish}>
@@ -173,11 +175,11 @@ export function ProductConfigurator({ initialModel }: ProductConfiguratorProps) 
                   >
                     <RadioGroupItem value={finishType.id} id={finishType.id} />
                     <Label htmlFor={finishType.id} className="flex-1 cursor-pointer">
-                      <div className="font-semibold">{finishType.name}</div>
+                      <div className="font-semibold">{t(finishType.name)}</div>
                       <div className="text-sm text-muted-foreground">
                         {finishType.priceMultiplier > 1
                           ? `+${Math.round((finishType.priceMultiplier - 1) * 100)}%`
-                          : "Базовая цена"}
+                          : t("cfg.finishBase")}
                       </div>
                     </Label>
                   </div>
@@ -190,7 +192,7 @@ export function ProductConfigurator({ initialModel }: ProductConfiguratorProps) 
         {/* Quantity */}
         <Card>
           <CardHeader>
-            <CardTitle>Количество</CardTitle>
+            <CardTitle>{t("cfg.quantity")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex items-center gap-4">
@@ -204,7 +206,7 @@ export function ProductConfigurator({ initialModel }: ProductConfiguratorProps) 
               </Button>
               <div className="flex-1 text-center">
                 <div className="text-3xl font-bold">{quantity}</div>
-                <div className="text-sm text-muted-foreground">шт.</div>
+                <div className="text-sm text-muted-foreground">{t("cfg.pcs")}</div>
               </div>
               <Button variant="outline" size="icon" onClick={() => setQuantity(quantity + 1)}>
                 <Plus className="h-4 w-4" />
@@ -216,38 +218,38 @@ export function ProductConfigurator({ initialModel }: ProductConfiguratorProps) 
         {/* Price Summary */}
         <Card className="border-primary">
           <CardHeader>
-            <CardTitle>Итоговая стоимость</CardTitle>
+            <CardTitle>{t("cfg.total")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Модель:</span>
+                <span className="text-muted-foreground">{t("cfg.summary.model")}</span>
                 <span className="font-medium">{product.name}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Размер:</span>
+                <span className="text-muted-foreground">{t("cfg.summary.size")}</span>
                 <span className="font-medium">
                   {width} × {height} мм
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Покрытие:</span>
-                <span className="font-medium">{finishTypes.find((f) => f.id === finish)?.name}</span>
+                <span className="text-muted-foreground">{t("cfg.summary.cover")}</span>
+                <span className="font-medium">{t(finishTypes.find((f) => f.id === finish)?.name || "")}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Количество:</span>
-                <span className="font-medium">{quantity} шт.</span>
+                <span className="text-muted-foreground">{t("cfg.summary.count")}</span>
+                <span className="font-medium">{quantity} {t("cfg.pcs")}</span>
               </div>
             </div>
             <div className="border-t pt-4">
               <div className="flex items-baseline justify-between">
-                <span className="text-lg font-semibold">Итого:</span>
+                <span className="text-lg font-semibold">{t("cfg.summary.total")}</span>
                 <span className="text-3xl font-bold">{new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'UZS', maximumFractionDigits: 0 }).format(totalPrice)}</span>
               </div>
             </div>
             <Button className="w-full" size="lg" onClick={handleAddToCart}>
               <ShoppingCart className="mr-2 h-5 w-5" />
-              Оформить заказ
+              {t("cfg.checkout")}
             </Button>
           </CardContent>
         </Card>

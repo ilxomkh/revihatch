@@ -4,8 +4,7 @@ import type React from "react"
 
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { Header } from "@/components/header"
-import { Footer } from "@/components/footer"
+import { useI18n } from "@/components/i18n-provider"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
@@ -25,6 +24,7 @@ interface OrderData {
 }
 
 export default function CheckoutPage() {
+  const { t } = useI18n() as any
   const router = useRouter()
   const [orderData, setOrderData] = useState<OrderData | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -87,17 +87,11 @@ export default function CheckoutPage() {
                 <CheckCircle2 className="h-16 w-16 text-green-600" />
               </div>
             </div>
-            <h1 className="mb-4 text-3xl font-bold">Заказ успешно оформлен!</h1>
-            <p className="mb-8 text-lg text-muted-foreground">
-              Мы получили ваш заказ и свяжемся с вами в ближайшее время для подтверждения деталей.
-            </p>
+            <h1 className="mb-4 text-3xl font-bold">{t("checkout.success.title")}</h1>
+            <p className="mb-8 text-lg text-muted-foreground">{t("checkout.success.desc")}</p>
             <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
-              <Button onClick={() => router.push("/")} size="lg">
-                На главную
-              </Button>
-              <Button onClick={() => router.push("/configurator")} variant="outline" size="lg">
-                Новый заказ
-              </Button>
+              <Button onClick={() => router.push("/")} size="lg">{t("checkout.success.toHome")}</Button>
+              <Button onClick={() => router.push("/configurator")} variant="outline" size="lg">{t("checkout.success.newOrder")}</Button>
             </div>
           </CardContent>
         </Card>
@@ -112,8 +106,8 @@ export default function CheckoutPage() {
   return (
     <main className="container mx-auto px-4 py-12">
       <div className="mb-8">
-        <h1 className="mb-2 text-4xl font-bold tracking-tight">Оформление заказа</h1>
-        <p className="text-lg text-muted-foreground">Заполните контактные данные для завершения заказа</p>
+        <h1 className="mb-2 text-4xl font-bold tracking-tight">{t("checkout.title")}</h1>
+        <p className="text-lg text-muted-foreground">{t("checkout.subtitle")}</p>
       </div>
 
       <div className="grid gap-8 lg:grid-cols-3">
@@ -122,45 +116,41 @@ export default function CheckoutPage() {
             <form onSubmit={handleSubmit} className="space-y-6">
               <Card>
                 <CardHeader>
-                  <CardTitle>Контактные данные</CardTitle>
-                  <CardDescription>Укажите ваши контактные данные для связи</CardDescription>
+                  <CardTitle>{t("checkout.contact")}</CardTitle>
+                  <CardDescription>{t("checkout.contactDesc")}</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
-                  <Label htmlFor="name">
-                    Имя <span className="text-destructive">*</span>
-                  </Label>
+                  <Label htmlFor="name">{t("checkout.name")} <span className="text-destructive">*</span></Label>
                     <Input
                       id="name"
                       required
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      placeholder="Имя Фамилия"
+                      placeholder={t("checkout.placeholder.name")}
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="phone">
-                      Телефон <span className="text-destructive">*</span>
-                    </Label>
+                    <Label htmlFor="phone">{t("checkout.phone")} <span className="text-destructive">*</span></Label>
                     <Input
                       id="phone"
                       type="tel"
                       required
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      placeholder="+99891 234 56 78"
+                      placeholder={t("checkout.placeholder.phone")}
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
+                    <Label htmlFor="email">{t("checkout.email")}</Label>
                     <Input
                       id="email"
                       type="email"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      placeholder="example@gmail.com"
+                      placeholder={t("checkout.placeholder.email")}
                     />
                   </div>
                 </CardContent>
@@ -168,33 +158,31 @@ export default function CheckoutPage() {
 
               <Card>
                 <CardHeader>
-                  <CardTitle>Адрес доставки</CardTitle>
-                  <CardDescription>Укажите адрес для доставки заказа</CardDescription>
+                  <CardTitle>{t("checkout.address")}</CardTitle>
+                  <CardDescription>{t("checkout.addressDesc")}</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <AddressMap onAddressSelect={handleAddressSelect} initialAddress={formData.address} />
 
                   <div className="space-y-2">
-                    <Label htmlFor="address">
-                      Полный адрес <span className="text-destructive">*</span>
-                    </Label>
+                    <Label htmlFor="address">{t("checkout.fullAddress")} <span className="text-destructive">*</span></Label>
                     <Textarea
                       id="address"
                       required
                       value={formData.address}
                       onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                      placeholder="Город, улица, дом, квартира"
+                      placeholder={t("checkout.placeholder.fullAddress")}
                       rows={3}
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="comment">Комментарий к заказу</Label>
+                    <Label htmlFor="comment">{t("checkout.comment")}</Label>
                     <Textarea
                       id="comment"
                       value={formData.comment}
                       onChange={(e) => setFormData({ ...formData, comment: e.target.value })}
-                      placeholder="Дополнительная информация, пожелания по доставке"
+                      placeholder={t("checkout.placeholder.comment")}
                       rows={3}
                     />
                   </div>
@@ -202,7 +190,7 @@ export default function CheckoutPage() {
               </Card>
 
               <Button type="submit" size="lg" className="w-full" disabled={isSubmitting}>
-                {isSubmitting ? "Оформление..." : "Подтвердить заказ"}
+                {isSubmitting ? t("checkout.submitting") : t("checkout.submit")}
               </Button>
             </form>
           </div>
@@ -211,38 +199,36 @@ export default function CheckoutPage() {
           <div>
             <Card className="sticky top-24">
               <CardHeader>
-                <CardTitle>Ваш заказ</CardTitle>
+                <CardTitle>{t("checkout.yourOrder")}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-3 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Модель:</span>
+                    <span className="text-muted-foreground">{t("checkout.model")}</span>
                     <span className="font-medium">{orderData.modelName}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Размер:</span>
+                    <span className="text-muted-foreground">{t("checkout.size")}</span>
                     <span className="font-medium">
                       {orderData.width} × {orderData.height} мм
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Покрытие:</span>
-                    <span className="font-medium">{orderData.finish}</span>
+                    <span className="text-muted-foreground">{t("checkout.cover")}</span>
+                    <span className="font-medium">{t(orderData.finish)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Количество:</span>
-                    <span className="font-medium">{orderData.quantity} шт.</span>
+                    <span className="text-muted-foreground">{t("checkout.count")}</span>
+                    <span className="font-medium">{orderData.quantity} {t("cfg.pcs")}</span>
                   </div>
                 </div>
 
                 <div className="border-t pt-4">
                   <div className="mb-4 flex items-baseline justify-between">
-                    <span className="text-lg font-semibold">Итого:</span>
+                    <span className="text-lg font-semibold">{t("cfg.summary.total")}</span>
                     <span className="text-2xl font-bold">{new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'UZS', maximumFractionDigits: 0 }).format(orderData.totalPrice)}</span>
                   </div>
-                  <p className="text-xs text-muted-foreground">
-                    Окончательная стоимость будет рассчитана после подтверждения заказа менеджером
-                  </p>
+                  <p className="text-xs text-muted-foreground">{t("checkout.notice")}</p>
                 </div>
               </CardContent>
             </Card>

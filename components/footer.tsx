@@ -1,7 +1,11 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { useI18n } from "@/components/i18n-provider";
 
 export function Footer() {
+  const { t } = useI18n() as any;
   return (
     <footer className="relative overflow-hidden border-t border-border/40">
       {/* Background image */}
@@ -27,13 +31,11 @@ export function Footer() {
               </div>
               <span className="text-xl font-bold tracking-tight">ZOR</span>
             </div>
-            <p className="text-sm leading-relaxed text-white/80">
-              Премиальные ревизионные люки для идеальной интеграции в интерьер
-            </p>
+            <p className="text-sm leading-relaxed text-white/80">{t("footer.tagline")}</p>
           </div>
 
           <div>
-            <h3 className="mb-4 font-semibold">Продукция</h3>
+            <h3 className="mb-4 font-semibold">{t("footer.products")}</h3>
             <ul className="space-y-2 text-sm text-white/80">
               <li>
                 <Link
@@ -71,45 +73,43 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="mb-4 font-semibold">Компания</h3>
+            <h3 className="mb-4 font-semibold">{t("footer.company")}</h3>
             <ul className="space-y-2 text-sm text-white/80">
               <li>
                 <Link href="#about" className="hover:text-white">
-                  О нас
+                  {t("footer.about")}
                 </Link>
               </li>
               <li>
                 <Link href="#reviews" className="hover:text-white">
-                  Отзывы
+                  {t("nav.reviews")}
                 </Link>
               </li>
               <li>
                 <Link href="#faq" className="hover:text-white">
-                  FAQ
+                  {t("nav.faq")}
                 </Link>
               </li>
               <li>
                 <Link href="/admin" className="hover:text-white">
-                  Вход
+                  Admin
                 </Link>
               </li>
             </ul>
           </div>
 
           <div>
-            <h3 className="mb-4 font-semibold">Контакты</h3>
+            <h3 className="mb-4 font-semibold">{t("footer.contacts")}</h3>
             <ul className="space-y-2 text-sm text-white/80">
               <li>+9989 906-81-80</li>
-              <li>info@revizor.ru</li>
-              <li>
-                г. Ташкент, Бектемирский район, рынок “Куйлюк”, магазин 36-А
-              </li>
+              <li>info@revizor.uz</li>
+              <li>{t("footer.address")}</li>
             </ul>
           </div>
         </div>
 
         <div className="mt-12 border-t border-white/20 pt-8 text-center text-sm text-white/70">
-          <p>© 2025 Revizor. Все права защищены.</p>
+          <p>{t("footer.copyright")}</p>
         </div>
       </div>
     </footer>

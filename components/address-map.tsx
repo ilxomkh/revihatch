@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { Input } from "@/components/ui/input"
+import { useI18n } from "@/components/i18n-provider"
 import { MapPin, Search } from "lucide-react"
 
 interface AddressMapProps {
@@ -16,6 +17,7 @@ interface Suggestion {
 }
 
 export function AddressMap({ onAddressSelect, initialAddress }: AddressMapProps) {
+  const { t, lang } = useI18n() as any
   const [searchQuery, setSearchQuery] = useState(initialAddress || "")
   const [suggestions, setSuggestions] = useState<Suggestion[]>([])
   const [isSearching, setIsSearching] = useState(false)
@@ -32,7 +34,7 @@ export function AddressMap({ onAddressSelect, initialAddress }: AddressMapProps)
       setIsSearching(true)
       try {
         const response = await fetch(
-          `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(searchQuery)}&accept-language=ru&limit=5`,
+          `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(searchQuery)}&accept-language=${lang}&limit=5`,
         )
         const data = await response.json()
         setSuggestions(data)
@@ -63,7 +65,7 @@ export function AddressMap({ onAddressSelect, initialAddress }: AddressMapProps)
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             type="text"
-            placeholder="Начните вводить адрес..."
+            placeholder={t("map.searchPlaceholder")}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-10"
@@ -110,16 +112,14 @@ export function AddressMap({ onAddressSelect, initialAddress }: AddressMapProps)
               <MapPin className="h-8 w-8 text-muted-foreground" />
             </div>
             <div>
-              <p className="mb-1 font-medium">Выберите адрес доставки</p>
-              <p className="text-sm text-muted-foreground">Начните вводить адрес в поле поиска выше</p>
+              <p className="mb-1 font-medium">{t("map.pickAddress")}</p>
+              <p className="text-sm text-muted-foreground">{t("map.startTyping")}</p>
             </div>
           </div>
         )}
       </div>
 
-      <p className="text-xs text-muted-foreground">
-        Введите адрес в поле поиска и выберите подходящий вариант из списка
-      </p>
+      <p className="text-xs text-muted-foreground">{t("map.hint")}</p>
     </div>
   )
 }

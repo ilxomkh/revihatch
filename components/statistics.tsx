@@ -1,13 +1,17 @@
-import Image from "next/image"
+"use client"
 
-const stats = [
-  { value: "10+", label: "Лет на рынке" },
-  { value: "5000+", label: "Установленных люков" },
-  { value: "98%", label: "Довольных клиентов" },
-  { value: "24/7", label: "Поддержка" },
-]
+import Image from "next/image"
+import { useI18n } from "@/components/i18n-provider"
 
 export function Statistics() {
+  const { t } = useI18n() as any
+  const stats = [
+    { value: "10+", label: t("stats.years") },
+    { value: "5000+", label: t("stats.installed") },
+    { value: "98%", label: t("stats.clients") },
+    { value: "24/7", label: t("stats.support") },
+  ]
+
   return (
     <section className="relative border-b border-border/40 overflow-hidden">
       {/* Background Image */}

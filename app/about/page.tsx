@@ -1,8 +1,12 @@
+"use client"
+
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { useI18n } from "@/components/i18n-provider"
 
 export default function AboutPage() {
+  const { t } = useI18n() as any
   return (
     <main>
       {/* Hero */}
@@ -18,17 +22,14 @@ export default function AboutPage() {
           <div className="absolute inset-0 bg-black/60 backdrop-blur-xs" />
         </div>
         <div className="relative container mx-auto px-4 py-24 md:py-32 text-center text-white">
-          <h1 className="mb-4 text-balance text-5xl font-bold tracking-tight md:text-6xl">О компании Revizor</h1>
-          <p className="mx-auto max-w-3xl text-white/90 text-lg md:text-xl leading-relaxed">
-            Мы создаем премиальные невидимые ревизионные люки для идеальной интеграции в интерьер
-            — с минимальными зазорами, скрытыми петлями и надежными замками.
-          </p>
+          <h1 className="mb-4 text-balance text-5xl font-bold tracking-tight md:text-6xl">{t("about.hero.title")}</h1>
+          <p className="mx-auto max-w-3xl text-white/90 text-lg md:text-xl leading-relaxed">{t("about.hero.subtitle")}</p>
           <div className="mt-8 flex items-center justify-center gap-4">
             <Button asChild className="bg-white text-black hover:bg-white/90">
-              <Link href="#values">Наши ценности</Link>
+              <Link href="#values">{t("about.hero.valuesBtn")}</Link>
             </Button>
             <Button asChild variant="outline" className="border-white/30 bg-white/10 text-white hover:bg-white/20">
-              <Link href="/configurator">Конфигуратор</Link>
+              <Link href="/configurator">{t("about.hero.configuratorBtn")}</Link>
             </Button>
           </div>
         </div>
@@ -38,10 +39,8 @@ export default function AboutPage() {
       <section id="values" className="border-b border-border/40 bg-background py-20">
         <div className="container mx-auto px-4">
           <div className="mb-12 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-3">Наши ценности</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Точность, надежность и эстетика — принципы, на которых строится каждый продукт Revizor.
-            </p>
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-3">{t("about.values.title")}</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">{t("about.values.subtitle")}</p>
           </div>
           <div className="grid gap-6 md:grid-cols-3">
             {/* Card 1 */}
@@ -51,8 +50,8 @@ export default function AboutPage() {
                 <div className="absolute inset-0 bg-black/60" />
               </div>
               <div className="relative z-10 p-6 text-white">
-                <h3 className="mb-2 text-xl font-semibold">Премиальные материалы</h3>
-                <p className="text-sm text-white/90">Используем алюминий и нержавеющую сталь высшего качества.</p>
+                <h3 className="mb-2 text-xl font-semibold">{t("about.values.card1.title")}</h3>
+                <p className="text-sm text-white/90">{t("about.values.card1.desc")}</p>
               </div>
             </div>
             {/* Card 2 */}
@@ -62,8 +61,8 @@ export default function AboutPage() {
                 <div className="absolute inset-0 bg-black/60" />
               </div>
               <div className="relative z-10 p-6 text-white">
-                <h3 className="mb-2 text-xl font-semibold">Инженерная точность</h3>
-                <p className="text-sm text-white/90">Микро-зазоры, скрытая фурнитура и долговечные механизмы.</p>
+                <h3 className="mb-2 text-xl font-semibold">{t("about.values.card2.title")}</h3>
+                <p className="text-sm text-white/90">{t("about.values.card2.desc")}</p>
               </div>
             </div>
             {/* Card 3 */}
@@ -73,8 +72,8 @@ export default function AboutPage() {
                 <div className="absolute inset-0 bg-black/60" />
               </div>
               <div className="relative z-10 p-6 text-white">
-                <h3 className="mb-2 text-xl font-semibold">Эстетичная интеграция</h3>
-                <p className="text-sm text-white/90">Люки, которые гармонично растворяются в пространстве.</p>
+                <h3 className="mb-2 text-xl font-semibold">{t("about.values.card3.title")}</h3>
+                <p className="text-sm text-white/90">{t("about.values.card3.desc")}</p>
               </div>
             </div>
           </div>
@@ -88,7 +87,7 @@ export default function AboutPage() {
             {/* Map */}
             <div className="relative rounded-2xl overflow-hidden border bg-background shadow-lg">
               <iframe
-                title="Карта: рынок Куйлюк, магазин 36-А (Яндекс гибрид)"
+                title={t("about.map.title")}
                 src="https://yandex.ru/map-widget/v1/?ll=69.284%2C41.233&z=18&l=map,sat&pt=69.284,41.233,pm2rdl"
                 className="h-[460px] w-full saturate-125 contrast-110 brightness-105"
                 loading="lazy"
@@ -100,27 +99,24 @@ export default function AboutPage() {
 
             {/* Company Info */}
             <div className="flex flex-col justify-center">
-              <h3 className="text-3xl font-bold leading-tight mb-4">
-                г. Ташкент, Бектемирский район,
-                <br /> рынок “Куйлюк”, магазин 36-А
-              </h3>
+              <h3 className="text-3xl font-bold leading-tight mb-4">{t("about.contact.address")}</h3>
 
               <div className="mb-6">
-                <div className="text-muted-foreground mb-2 text-lg font-medium">Режим работы</div>
+                <div className="text-muted-foreground mb-2 text-lg font-medium">{t("about.contact.hours.title")}</div>
                 <div className="space-y-1 text-base">
-                  <div>Пн – Чт: с 8:00 до 18:00</div>
-                  <div>Пт: с 10:00 до 16:00</div>
+                  <div>{t("about.contact.hours.weekdays")}</div>
+                  <div>{t("about.contact.hours.friday")}</div>
                 </div>
               </div>
 
               <div className="mb-6">
-                <div className="text-muted-foreground mb-2 text-lg font-medium">Телефон</div>
+                <div className="text-muted-foreground mb-2 text-lg font-medium">{t("about.contact.phone.title")}</div>
                 <a href="tel:+998990968180" className="text-2xl font-semibold">+9989 906 8180</a>
               </div>
 
               <div>
                 <a href="tel:+998990968180" className="inline-flex items-center justify-center rounded-md bg-primary px-6 py-3 text-base font-medium text-primary-foreground transition-colors hover:opacity-90">
-                  Позвонить
+                  {t("about.contact.callBtn")}
                 </a>
               </div>
             </div>

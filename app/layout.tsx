@@ -6,6 +6,7 @@ import "./globals.css"
 import { Suspense } from "react"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
+import { I18nProvider } from "@/components/i18n-provider"
 
 const inter = Inter({
   subsets: ["latin", "cyrillic"],
@@ -27,11 +28,13 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body className={`font-sans ${inter.variable} antialiased`}>
-        <div className="min-h-screen bg-background">
-          <Header />
-          <Suspense fallback={null}>{children}</Suspense>
-          <Footer />
-        </div>
+        <I18nProvider>
+          <div className="min-h-screen bg-background">
+            <Header />
+            <Suspense fallback={null}>{children}</Suspense>
+            <Footer />
+          </div>
+        </I18nProvider>
         <Analytics />
       </body>
     </html>

@@ -9,8 +9,10 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { useI18n } from "@/components/i18n-provider"
 
 export function Header() {
+  const { t, lang, setLang } = useI18n()
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
   const [isLoginMode, setIsLoginMode] = useState(true)
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false)
@@ -46,30 +48,33 @@ export function Header() {
             href="/#products"
             className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
-            Продукция
+            {t("nav.products")}
           </Link>
           <Link
             href="/about"
             className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
-            О нас
+            {t("nav.about")}
           </Link>
           <Link
             href="/#reviews"
             className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
-            Отзывы
+            {t("nav.reviews")}
           </Link>
           <Link
             href="/#faq"
             className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
-            FAQ
+            {t("nav.faq")}
           </Link>
         </nav>
 
         {/* Desktop Actions */}
         <div className="hidden items-center gap-4 md:flex">
+          {/* Language switch - to the left of auth icon */}
+          <Button variant="outline" size="sm" onClick={() => setLang(lang === "ru" ? "uz" : "ru")}>{lang === "ru" ? "RU" : "UZ"}</Button>
+
           <Dialog open={isAuthModalOpen} onOpenChange={setIsAuthModalOpen}>
             <DialogTrigger asChild>
               <Button variant="ghost" size="icon">
@@ -78,31 +83,28 @@ export function Header() {
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
               <DialogHeader>
-                <DialogTitle>{isLoginMode ? "Вход в аккаунт" : "Регистрация"}</DialogTitle>
+                <DialogTitle>{isLoginMode ? t("auth.login") : t("auth.register")}</DialogTitle>
                 <DialogDescription>
-                  {isLoginMode 
-                    ? "Войдите в свой аккаунт для оформления заказов" 
-                    : "Создайте аккаунт для быстрого оформления заказов"
-                  }
+                  {isLoginMode ? t("auth.loginDesc") : t("auth.registerDesc")}
                 </DialogDescription>
               </DialogHeader>
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email">{t("auth.email")}</Label>
                   <Input id="email" type="email" placeholder="example@mail.ru" />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="password">Пароль</Label>
+                  <Label htmlFor="password">{t("auth.password")}</Label>
                   <Input id="password" type="password" placeholder="••••••••" />
                 </div>
                 {!isLoginMode && (
                   <div className="space-y-2">
-                    <Label htmlFor="confirmPassword">Подтвердите пароль</Label>
+                    <Label htmlFor="confirmPassword">{t("auth.passwordConfirm")}</Label>
                     <Input id="confirmPassword" type="password" placeholder="••••••••" />
                   </div>
                 )}
                 <Button className="w-full">
-                  {isLoginMode ? "Войти" : "Зарегистрироваться"}
+                  {isLoginMode ? t("auth.loginBtn") : t("auth.registerBtn")}
                 </Button>
                 <div className="text-center">
                   <button
@@ -110,7 +112,7 @@ export function Header() {
                     onClick={() => setIsLoginMode(!isLoginMode)}
                     className="text-sm text-muted-foreground hover:text-foreground"
                   >
-                    {isLoginMode ? "Нет аккаунта? Зарегистрироваться" : "Есть аккаунт? Войти"}
+                    {isLoginMode ? t("auth.toRegister") : t("auth.toLogin")}
                   </button>
                 </div>
               </div>
@@ -129,32 +131,32 @@ export function Header() {
                   }
                 }}
               >
-                Заказать
+                {t("action.order")}
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
               <DialogHeader>
-                <DialogTitle>Вход в аккаунт</DialogTitle>
+                <DialogTitle>{t("auth.login")}</DialogTitle>
                 <DialogDescription>
-                  Войдите в свой аккаунт для оформления заказа
+                  {t("order.loginToOrder")}
                 </DialogDescription>
               </DialogHeader>
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="order-email">Email</Label>
+                  <Label htmlFor="order-email">{t("auth.email")}</Label>
                   <Input id="order-email" type="email" placeholder="example@mail.ru" />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="order-password">Пароль</Label>
+                  <Label htmlFor="order-password">{t("auth.password")}</Label>
                   <Input id="order-password" type="password" placeholder="••••••••" />
                 </div>
-                <Button className="w-full" onClick={completeAuth}>Войти и заказать</Button>
+                <Button className="w-full" onClick={completeAuth}>{t("order.loginAndBuy")}</Button>
                 <div className="text-center">
                   <button
                     type="button"
                     className="text-sm text-muted-foreground hover:text-foreground"
                   >
-                    Нет аккаунта? Зарегистрироваться
+                    {t("auth.toRegister")}
                   </button>
                 </div>
               </div>
@@ -164,6 +166,9 @@ export function Header() {
 
         {/* Mobile Menu */}
         <div className="flex items-center gap-2 md:hidden">
+          {/* Language switch - to the left of auth icon */}
+          <Button variant="outline" size="sm" onClick={() => setLang(lang === "ru" ? "uz" : "ru")}>{lang === "ru" ? "RU" : "UZ"}</Button>
+
           <Dialog open={isAuthModalOpen} onOpenChange={setIsAuthModalOpen}>
             <DialogTrigger asChild>
               <Button variant="ghost" size="icon">
@@ -172,31 +177,28 @@ export function Header() {
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
               <DialogHeader>
-                <DialogTitle>{isLoginMode ? "Вход в аккаунт" : "Регистрация"}</DialogTitle>
+                <DialogTitle>{isLoginMode ? t("auth.login") : t("auth.register")}</DialogTitle>
                 <DialogDescription>
-                  {isLoginMode 
-                    ? "Войдите в свой аккаунт для оформления заказов" 
-                    : "Создайте аккаунт для быстрого оформления заказов"
-                  }
+                  {isLoginMode ? t("auth.loginDesc") : t("auth.registerDesc")}
                 </DialogDescription>
               </DialogHeader>
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="mobile-email">Email</Label>
+                  <Label htmlFor="mobile-email">{t("auth.email")}</Label>
                   <Input id="mobile-email" type="email" placeholder="example@mail.ru" />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="mobile-password">Пароль</Label>
+                  <Label htmlFor="mobile-password">{t("auth.password")}</Label>
                   <Input id="mobile-password" type="password" placeholder="••••••••" />
                 </div>
                 {!isLoginMode && (
                   <div className="space-y-2">
-                    <Label htmlFor="mobile-confirmPassword">Подтвердите пароль</Label>
+                    <Label htmlFor="mobile-confirmPassword">{t("auth.passwordConfirm")}</Label>
                     <Input id="mobile-confirmPassword" type="password" placeholder="••••••••" />
                   </div>
                 )}
                 <Button className="w-full">
-                  {isLoginMode ? "Войти" : "Зарегистрироваться"}
+                  {isLoginMode ? t("auth.loginBtn") : t("auth.registerBtn")}
                 </Button>
                 <div className="text-center">
                   <button
@@ -204,7 +206,7 @@ export function Header() {
                     onClick={() => setIsLoginMode(!isLoginMode)}
                     className="text-sm text-muted-foreground hover:text-foreground"
                   >
-                    {isLoginMode ? "Нет аккаунта? Зарегистрироваться" : "Есть аккаунт? Войти"}
+                    {isLoginMode ? t("auth.toRegister") : t("auth.toLogin")}
                   </button>
                 </div>
               </div>
@@ -219,8 +221,8 @@ export function Header() {
             </SheetTrigger>
             <SheetContent side="right" className="w-[300px] sm:w-[400px]">
               <div className="mb-6">
-                <h2 className="text-lg font-semibold">Меню</h2>
-                <p className="text-sm text-muted-foreground">Навигация по сайту</p>
+                <h2 className="text-lg font-semibold">{t("nav.menu")}</h2>
+                <p className="text-sm text-muted-foreground">{t("nav.menuDesc")}</p>
               </div>
               <div className="flex flex-col space-y-4">
                 <Link
@@ -228,28 +230,28 @@ export function Header() {
                   className="text-lg font-medium text-muted-foreground transition-colors hover:text-foreground"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Продукция
+                  {t("nav.products")}
                 </Link>
                 <Link
                   href="/about"
                   className="text-lg font-medium text-muted-foreground transition-colors hover:text-foreground"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  О нас
+                  {t("nav.about")}
                 </Link>
                 <Link
                   href="/#reviews"
                   className="text-lg font-medium text-muted-foreground transition-colors hover:text-foreground"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Отзывы
+                  {t("nav.reviews")}
                 </Link>
                 <Link
                   href="/#faq"
                   className="text-lg font-medium text-muted-foreground transition-colors hover:text-foreground"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  FAQ
+                  {t("nav.faq")}
                 </Link>
                 <div className="pt-4 border-t">
                   <Button
@@ -263,7 +265,7 @@ export function Header() {
                       setIsMobileMenuOpen(false)
                     }}
                   >
-                    Заказать
+                    {t("action.order")}
                   </Button>
                 </div>
               </div>
@@ -275,27 +277,27 @@ export function Header() {
         <Dialog open={isOrderModalOpen} onOpenChange={setIsOrderModalOpen}>
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
-              <DialogTitle>Вход в аккаунт</DialogTitle>
+              <DialogTitle>{t("auth.login")}</DialogTitle>
               <DialogDescription>
-                Войдите в свой аккаунт для оформления заказа
+                {t("order.loginToOrder")}
               </DialogDescription>
             </DialogHeader>
             <div className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="mobile-order-email">Email</Label>
+                <Label htmlFor="mobile-order-email">{t("auth.email")}</Label>
                 <Input id="mobile-order-email" type="email" placeholder="example@mail.ru" />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="mobile-order-password">Пароль</Label>
+                <Label htmlFor="mobile-order-password">{t("auth.password")}</Label>
                 <Input id="mobile-order-password" type="password" placeholder="••••••••" />
               </div>
-              <Button className="w-full" onClick={completeAuth}>Войти и заказать</Button>
+              <Button className="w-full" onClick={completeAuth}>{t("order.loginAndBuy")}</Button>
               <div className="text-center">
                 <button
                   type="button"
                   className="text-sm text-muted-foreground hover:text-foreground"
                 >
-                  Нет аккаунта? Зарегистрироваться
+                  {t("auth.toRegister")}
                 </button>
               </div>
             </div>
