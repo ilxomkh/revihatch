@@ -177,7 +177,7 @@ export default function AdminPage() {
               <TrendingUp className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{totalRevenue.toLocaleString()} ₽</div>
+              <div className="text-2xl font-bold">{new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'UZS', maximumFractionDigits: 0 }).format(totalRevenue)}</div>
             </CardContent>
           </Card>
         </div>
@@ -284,7 +284,7 @@ function OrderCard({
               </p>
             </div>
             <div className="text-right">
-              <div className="text-2xl font-bold">{order.totalPrice.toLocaleString()} ₽</div>
+              <div className="text-2xl font-bold">{new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'UZS', maximumFractionDigits: 0 }).format(order.totalPrice)}</div>
             </div>
           </div>
 

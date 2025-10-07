@@ -127,15 +127,15 @@ export default function CheckoutPage() {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="name">
-                      Имя <span className="text-destructive">*</span>
-                    </Label>
+                  <Label htmlFor="name">
+                    Имя <span className="text-destructive">*</span>
+                  </Label>
                     <Input
                       id="name"
                       required
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      placeholder="Иван Иванов"
+                      placeholder="Имя Фамилия"
                     />
                   </div>
 
@@ -149,21 +149,18 @@ export default function CheckoutPage() {
                       required
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      placeholder="+7 (999) 123-45-67"
+                      placeholder="+99891 234 56 78"
                     />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="email">
-                      Email <span className="text-destructive">*</span>
-                    </Label>
+                    <Label htmlFor="email">Email</Label>
                     <Input
                       id="email"
                       type="email"
-                      required
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      placeholder="example@mail.ru"
+                      placeholder="example@gmail.com"
                     />
                   </div>
                 </CardContent>
@@ -241,7 +238,7 @@ export default function CheckoutPage() {
                 <div className="border-t pt-4">
                   <div className="mb-4 flex items-baseline justify-between">
                     <span className="text-lg font-semibold">Итого:</span>
-                    <span className="text-2xl font-bold">{orderData.totalPrice.toLocaleString()} ₽</span>
+                    <span className="text-2xl font-bold">{new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'UZS', maximumFractionDigits: 0 }).format(orderData.totalPrice)}</span>
                   </div>
                   <p className="text-xs text-muted-foreground">
                     Окончательная стоимость будет рассчитана после подтверждения заказа менеджером

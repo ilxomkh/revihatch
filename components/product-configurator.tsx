@@ -13,25 +13,25 @@ const products = {
   transformer: {
     name: "Transformer",
     description: "Универсальная модель с возможностью открывания в любую сторону",
-    basePrice: 8500,
+    basePrice: 850000,
     image: "/minimalist-invisible-wall-hatch-aluminum.jpg",
   },
   universal: {
     name: "Universal",
     description: "Классическая модель для стандартных задач",
-    basePrice: 6500,
+    basePrice: 650000,
     image: "/industrial-wall-access-panel-white.jpg",
   },
   floor: {
     name: "Floor",
     description: "Напольная модель повышенной прочности",
-    basePrice: 12000,
+    basePrice: 1200000,
     image: "/floor-access-hatch-industrial-design.jpg",
   },
   anodos: {
     name: "Anodos",
     description: "Премиум-модель с анодированным покрытием",
-    basePrice: 15000,
+    basePrice: 1500000,
     image: "/premium-anodized-aluminum-hatch.jpg",
   },
 }
@@ -112,7 +112,7 @@ export function ProductConfigurator({ initialModel }: ProductConfiguratorProps) 
                     <RadioGroupItem value={key} id={key} />
                     <Label htmlFor={key} className="flex-1 cursor-pointer">
                       <div className="font-semibold">{prod.name}</div>
-                      <div className="text-sm text-muted-foreground">от {prod.basePrice.toLocaleString()} ₽</div>
+                      <div className="text-sm text-muted-foreground">от {new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'UZS', maximumFractionDigits: 0 }).format(prod.basePrice)}</div>
                     </Label>
                   </div>
                 ))}
@@ -242,7 +242,7 @@ export function ProductConfigurator({ initialModel }: ProductConfiguratorProps) 
             <div className="border-t pt-4">
               <div className="flex items-baseline justify-between">
                 <span className="text-lg font-semibold">Итого:</span>
-                <span className="text-3xl font-bold">{totalPrice.toLocaleString()} ₽</span>
+                <span className="text-3xl font-bold">{new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'UZS', maximumFractionDigits: 0 }).format(totalPrice)}</span>
               </div>
             </div>
             <Button className="w-full" size="lg" onClick={handleAddToCart}>
